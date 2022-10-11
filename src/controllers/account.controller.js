@@ -1,12 +1,13 @@
+const { account } = require("../models");
 const db = require("../models");
-import { createAccount } from "./account.controller";
-const User = db.user;
+const Account = db.account;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Tutorial
+
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.title) {
+    if (!req.body.balance) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
@@ -14,21 +15,20 @@ exports.create = (req, res) => {
     }
 
     // Create a Tutorial
-    const user = {
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
+    const account = {
+        userId: req.body.userId,
+        balance: req.body.balance,
     };
 
     // Save Tutorial in the database
-    User.create(user)
+    Account.create(account)
         .then(data => {
             res.send(data);
-            console.log(data)
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the User."
+                    err.message || "Some error occurred while creating the Tutorial."
             });
         });
 };

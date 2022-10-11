@@ -15,4 +15,6 @@ db.sequelize.sync({ force: true }).then(() => {
 async function test() {
     const jane = await db.user.create({ firstName: "Jane", lastName: "Doe" });
     console.log("Jane's auto-generated ID:", jane.id);
+    const maxiAcc = await db.account.create({balance : 15000, user : jane})
+    console.log(maxiAcc)
 }
