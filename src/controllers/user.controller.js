@@ -1,9 +1,8 @@
 const db = require("../models");
-import { createAccount } from "./account.controller";
 const User = db.user;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Tutorial
+// Create and Save a new User
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.title) {
@@ -13,13 +12,13 @@ exports.create = (req, res) => {
         return;
     }
 
-    // Create a Tutorial
+    // Create a User
     const user = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
     };
 
-    // Save Tutorial in the database
+    // Save User in the database
     User.create(user)
         .then(data => {
             res.send(data);
@@ -33,32 +32,57 @@ exports.create = (req, res) => {
         });
 };
 
-// Retrieve all Tutorials from the database.
+// Retrieve all Users from the database.
 exports.findAll = (req, res) => {
-
+    User.findAll()
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving user."
+            });
+        });
 };
 
-// Find a single Tutorial with an id
+// Find a single User with an id
 exports.findOne = (req, res) => {
+    const id = req.params.id;
 
+    User.findByPk(id)
+        .then(data => {
+            if (data) {
+                res.send(data);
+            } else {
+                res.status(404).send({
+                    message: `Cannot find User with id=${id}.`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error retrieving User with id=" + id
+            });
+        });
 };
 
-// Update a Tutorial by the id in the request
+// Update a User by the id in the request
 exports.update = (req, res) => {
 
 };
 
-// Delete a Tutorial with the specified id in the request
+// Delete a User with the specified id in the request
 exports.delete = (req, res) => {
 
 };
 
-// Delete all Tutorials from the database.
+// Delete all Users from the database.
 exports.deleteAll = (req, res) => {
 
 };
 
-// Find all published Tutorials
+// Find all published Users
 exports.findAllPublished = (req, res) => {
 
 };
