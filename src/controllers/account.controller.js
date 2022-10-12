@@ -35,8 +35,30 @@ exports.create = (req, res) => {
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
-
+    Account.findAll({include : ["transactions"]})
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving account."
+            });
+        });
 };
+
+exports.findByPk = (req, res) => {
+    Account.findByPk({include : ["transactions"]})
+    .then(data => {
+        res.send(data)
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+                err.message || "Some error occurred while retrieving account."
+        })
+    })
+}
 
 // Find a single Tutorial with an id
 exports.findOne = (req, res) => {

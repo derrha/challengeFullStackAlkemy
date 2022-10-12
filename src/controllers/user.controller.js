@@ -5,7 +5,9 @@ const Op = db.Sequelize.Op;
 // Create and Save a new User
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.title) {
+    console.log(req.body)
+
+    if (!req.body.firstName) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
@@ -34,7 +36,7 @@ exports.create = (req, res) => {
 
 // Retrieve all Users from the database.
 exports.findAll = (req, res) => {
-    User.findAll()
+    User.findAll({include : ["account"]})
         .then(data => {
             res.send(data);
         })

@@ -16,7 +16,10 @@ db.transaction = require('./transaction.model')(sequelize, Sequelize)
 
 db.user.hasOne(db.account);
 db.account.belongsTo(db.user);
-db.account.hasMany(db.transaction);
-db.transaction.belongsTo(db.account);
+db.account.hasMany(db.transaction, {as: "transactions"});
+db.transaction.belongsTo(db.account, {
+    foreignKey: "accountId",
+    as : "account"
+});
 
 module.exports = db
